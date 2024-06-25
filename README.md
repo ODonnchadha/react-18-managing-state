@@ -63,3 +63,13 @@ I made the following enhancements:
         - GIT. Source control. NODE.JS. (Use LTS.) create-react-app with VSCode and Prettier code formatter. Run Prettier on save.
         - Auto formet: Install Prettier extension. Setting: Formet on save. Check box. (Optional.)
         - Not using PropTypes or TypeScript. Use plain CSS. Copy/paste code.
+    - APPLICATION:
+        - Modified 'start' to begin both the app and the mock API.
+            ```javascript
+                "start": "run-p start-app start-api"
+            ```
+        - Entry point. Index.js
+    - Implement shoe listing page:
+        - Why state is necessary. Fetch an store data. 
+        - Handle immutable state. Implement filter and update state.
+        - Display error page. Rules of hooks. Implement custom hook.
