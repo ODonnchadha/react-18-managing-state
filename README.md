@@ -73,3 +73,96 @@ I made the following enhancements:
         - Why state is necessary. Fetch an store data. 
         - Handle immutable state. Implement filter and update state.
         - Display error page. Rules of hooks. Implement custom hook.
+        - The section tag is often a betteer choice than a div. It's more descriptive.
+            ```html
+                <section></section>
+            ```
+            - If you're torn of which tag to use, search for HTML5 flowchart.
+        - .map() automatically passes each iteration to the associative function. This is called a 'point-free' style.
+        - useState hook. Allows for declaring state inside of function components.
+            - useState will return an array of two items: The state and the 'setter' function.
+            - Traditionally the setter has the same name as the state, with the "set" prepended.
+            - Declare state called "size" with a setter called "setSize." Default size to an empty string:
+                ```javascript
+                    const [size, setSize] = useState("");
+                ```
+            - This is called array destructuring. We are declaring a variable for each element in the returned array. e.g.:
+                ```javascript
+                    const state = useState("");
+                    const size = state[0];
+                    const setSize = state[1];
+                ```
+    - HOOKS: Enhancing function components. SOme concentrate on state.
+        1. Only are for functional components. Can be consumed in classes too.
+        2. Start with "use."
+        3. Only call them at a top level. Consistent order. Cannot be called inside of functions, conditionals, or loops.
+            - Hooks need to be run in the same order on every render.
+             - React tracks the order hooks are run so it can store the corresponding data.
+        - Need to run a hook conditionally? Then place the condition inside the hook.
+    - Controlled component: React is controlling the value.
+        - EVENTS:
+            - Synthetic events. Similar to browser's native event system.
+            1. Assures events operate consistently cross-browser.
+            2. Improves performance by strategically binding event handlers.
+        - React developer tools. Chrome store.
+        - Derived state:
+            - When does React render:
+                1. State changes.
+                2. Prop changes.
+                3. Parent render.
+                4. Context changes.
+                - NOTE: Will not re-render whan a plain variable changes.
+        - When state changes the component renders which causes derived state to be calculated.
+        - Logical and operator. It runs the right side if the left side is truthy.
+            ```javascript
+                {size && <h2>Found {filtered.length} items</h2>}
+            ```
+        - useEffect is like a configurable lifecycle method.
+    - Four ways in which to handle API calls.
+        1. Inline. Call fetch/Axios/etc:
+            - Simple/ Direct.
+            - Hard to ensure API calls are handled consistently across the application. Cannot be reused.
+            - NOT RECOMMENDED.
+        2. Centralized functions: Call seperate functions.
+            - Import seperate function and call it.
+        3. Custom hook. Create and call a custom hook:
+        4. Library. react-query, e.g.:
+    - React error boundary. This must be a class component.
+        ```javascript
+            export default class
+             import ErrorBoundary from './ErrorBoundary';
+        ```
+    - Promises versus async/await. Syntactic suger. Can mix the two.
+            ```javascript
+                useEffect(() => {
+                    getProducts("shoes")
+                    .then((response) => setProducts(response))
+                    .catch((e) => setError(e))
+                    .finally(() => setLoading(false));
+                }, []);
+            ```
+            ```javascript
+                useEffect(() => {
+                    async function init() {
+                        try {
+                            const response = await getProducts("shoes");
+                            setProducts(response);
+                        } catch (e) {
+                            setError(e);
+                        }
+                        finally {
+                            setLoading(false);
+                        }
+                    }
+                    init();
+                }, []);
+            ```
+    - Creating a custom hook: Create a sngle hook that makes it easy to generate HTTP calls.
+        - Simplfy state logic. Radically.
+    - SUMMARY:
+        - Local State: useState.
+        - Remote State: useEffect. async calls. Promises/async await. Loading state. Error boundary. Error handing.
+        - Custom hook:
+
+- MANAGING ROUTE STATE:
+    - 
