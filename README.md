@@ -165,4 +165,17 @@ I made the following enhancements:
         - Custom hook:
 
 - MANAGING ROUTE STATE:
+    - Seperate, open-source: react-router.
+        - Create application layout. Declare routes with placeholders. Read URL parameters.
+        - Handle 404s. Implement inks. Redirect.
+        - Create product detail and shopping cart.
+    - All child components can decalre routes.
+    - SUMMARY:
+        - Declare routes via <Route/>
+        - Declared and read URL placeholders.
+        - Used <Link/> instead of anchor.
+        - Handled 404s.
+        - Redirected via useNavigate hook.
+
+- MANAGING SHARED, DEVIRED, AND IMMUTABLE STATE:
     - 
