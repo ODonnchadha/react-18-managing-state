@@ -74,7 +74,7 @@ I made the following enhancements:
         - Handle immutable state. Implement filter and update state.
         - Display error page. Rules of hooks. Implement custom hook.
         - The section tag is often a betteer choice than a div. It's more descriptive.
-            ```html
+            ```jacascript
                 <section></section>
             ```
             - If you're torn of which tag to use, search for HTML5 flowchart.
@@ -129,8 +129,8 @@ I made the following enhancements:
         4. Library. react-query, e.g.:
     - React error boundary. This must be a class component.
         ```javascript
-            export default class
-             import ErrorBoundary from './ErrorBoundary';
+            export default class;
+            import ErrorBoundary from './ErrorBoundary';
         ```
     - Promises versus async/await. Syntactic suger. Can mix the two.
             ```javascript
@@ -141,6 +141,7 @@ I made the following enhancements:
                     .finally(() => setLoading(false));
                 }, []);
             ```
+        - Versus:
             ```javascript
                 useEffect(() => {
                     async function init() {
@@ -178,4 +179,121 @@ I made the following enhancements:
         - Redirected via useNavigate hook.
 
 - MANAGING SHARED, DEVIRED, AND IMMUTABLE STATE:
-    - 
+    - Build a shopping cart:
+        - Derive state:
+            ```javascript
+                <button disabled={!sku}>
+            ```
+        - Explore where to declare state:
+            - NOTE: Multiple pages need the cart state.
+            - SUGGESTION: Start local with state, and then lift when needed.
+            - Principe of least privilege: Every module must be able to access only the infrmation and resources that are necessary for its legitimate purpose.
+                - Ideally, each React component only has access to the data and functions that it needs.
+            - Start local:
+                - Declare state in the component that needs it.
+                - Child components need the state? Pass state down via props.
+                - Non-child components need the state? Lift state to a common parent.
+                - Passing props gets annoying? Consider context. Redux. Etc.
+            - Problem: Both components needs to access the cart state.
+                - App -> Detail: Add item to cart.
+                - App -> Cart: Display cart.
+                - Declare cart state within the App component.
+        - Lift state:
+            - We need to update state using existing state. So we should use a fnction to set state.
+            - Why is setting state async? 
+                - Batching improves performance by reducing re-renders.
+                - If state is set multiple times in a short time period, React may batch the updates.
+                - Supports async rendering.
+                - Use the function form when you need to reference existing state.
+                ```javascript
+                    setCount(count + 1);
+                    setCount((count) => count + 1);
+                ```
+                - Predicate. A function that returns either true or false.
+                - In React, we treat state as immutable.
+        - Immutability: Why bother? Frienndly approaches:
+            - Fast comparisons. Value versus reference equality:
+                - Value equality: Does each property have the same value?
+                - Referencnce equality: Do both variables reference the same spot in memory?
+                ```javascript
+                    const user1 = user;
+                    const user2 = user;
+                    user1.name === user2.name && user1.role === user2.role;
+                    user1 === user2;
+                ```
+                - React: If old and new state reference the same spot in memory, then state hasn't changed.
+            - Pure functions are easy to understand and test.
+            - More simple for undo/redo.
+            - Avoid bugs.
+            - Immutability: To change state, return a new value.
+                - Immutable already: Number, String, Boolean, Undefined, Null.
+                - Mutable: Objects, Arrays, Functions.
+                - Mutating state versus *not* mutating state:
+                    ```javascript
+                        state = {
+                            name: 'X',
+                            role: 'Dancer'
+                        }
+                        state.role = 'Singer';
+                        return state;
+
+                        return state = {
+                            name: 'X',
+                            role: 'Singer'
+                        }
+                    ```
+                - Handling Immutable Data in JavaScript:
+                    - Object.assign. Create an ampty object and then add some properties:
+                    ```javascript
+                        Object.assign({}, state, { role: "Singer" });
+                    ```
+                    - Spread syntax: Whatever you place on the right is shallow copied.
+                        - NOTE: Use spread to copy as array as well.
+                    ```javascript
+                        const newState = { ...state, role: "Singer" };
+                    ```
+                    - NOTE: Both Object.assign and spread create shallow copies.
+                        - Beware the nested object. Perhaps clone the nested object on change.
+                    ```javascript
+                        const user = {
+                            namw: 'X',
+                            address: {
+                                state: 'Minnesota'
+                            }
+                        };
+                        const nested = { ...user, address: { ... user.address }};
+                    ```
+                    - Try to avoid storng nested objects within state.
+                    ```javascript
+                        const user = {
+                            namw: 'X',
+                            email: 'x@x.com',
+                            address: {
+                                state: 'Minnesota'
+                            }
+                        };
+                        const [user, setUser] = useState(user);
+                        const [address, setAddress] = useState(user.address);
+                    ```
+                    - And then merge the objects back together.
+                    - Avoid blindly deep cloning. 
+                        - It's expensive. Typically wasteful. Causes unnecessary renders.
+                    - Some array methods: .map();
+                        - Avoid these: push, pop, reverse. 
+                            - If using, clone the array first to avoid mutating.
+                        - Prefer these: map, filter, reduce, concat, spread.
+                            - These return a *new* array.
+                        - Map runs a function on each element in the array.
+                        - And returns a new array that's the same length.
+        - Use function form of setState.
+            - When updating state using existing state, use the function form of set state.
+        - Prop destructuring:
+        ```javascript
+            export default function Cart({ cart, updateQuantity }) { };
+            export default function Cart(props) { 
+                const { cart, updateQuantity } = props;
+            };           
+        ```
+        - Implementing Immutable Friendly Delete:
+            - 
+        - Declare event handlers on a list.
