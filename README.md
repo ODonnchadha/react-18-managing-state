@@ -295,5 +295,65 @@ I made the following enhancements:
             };           
         ```
         - Implementing Immutable Friendly Delete:
-            - 
-        - Declare event handlers on a list.
+            - With `filter` we will tell the array what to keep.
+            - With `reduce` we can aggregate the quantity.
+            - Typically, performance isn't a problem. 
+                - If so, use React's useMemo to memoize expensive calculations.
+                - The useMemo hook must be decalred above the first return since hooks can't be called conditionally.
+            ```javascript
+                const numItemsInCart = useMemo(
+                    () => cart.reduce((total, item) => total+item.quantity, 0), 
+                    [cart]
+                );
+            ```
+        - Web storage: 
+            - cookie: Simple.
+            - localStorage: Simple.
+            - sessionStorage: Simple
+            - IndexedDb: Complex.
+            - Cache Storage: Off-line.
+                - Downfalls: 
+                    - Limited storage. 
+                    - Security risk. 
+                    - localStorage/sessionStorage block i/o. 
+                    - Tied to browser.
+        - Lazy initializing state:
+            - Default values are evaluated on every render.
+            - Fuunctions are lazy evualated.
+            - Use try/catch for malformed local data.
+            - Use Nullish coalescing operator: ?? 
+                - If the left-hand side is null or undefined, use the value on the right.
+
+- MANAGING FORM STATE AND VALIDATION:
+    - Creating change handlers and persisting events:
+        - Controlled components: Setting state with an object is a little more complex.
+        - NOTE: With functional set state, React deletes the event before we can access it.
+        - SOLUTION: Persist the change.
+            ```javascript
+                e.persist();
+            ```
+        - NOTE: This isn't necessary in React 17 or later since React 17 no longer pools events.
+    - Form validation decesions:
+        - Where to display errors? By field and on top.
+        - When to display errors? onSubmit? onBlur? onChange? All three.
+        - When to disble submit? While submitting.
+        - When to revalidate? onSubmit? onBlur? onChange? All three.
+        - What state do we need to declare?
+            - Touched: What fields have been touched? (Store as touched.)
+            - Submitted: Has the form been submitted? (Store as status.)
+            - isSubmitting: Is a form submission in progress? (Store as status.)
+            - isValid: Is the form currently valid? (Derive.)
+            - errors: What are the erros for each field? (Derive.)
+            - dirty: Has the form changed? (Derive.)
+    - Implement a state enum.
+        - Favor ENUMs over seperate booleans.
+        - Our form can only be in 1 of 3 states at a given time.
+        ```javascript
+            const STATUS = {
+                IDLE: "IDLE",
+                SUBMITTING: "SUBMITTING",
+                SUBMITTED: "SUBMITTED",
+                COMPLETED: "COMPLETED"
+            };
+            const [status, setStatus] = useState(STATUS.IDLE);
+        ```
