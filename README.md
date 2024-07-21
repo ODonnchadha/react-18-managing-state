@@ -9,7 +9,7 @@ This will install dependencies, then start the app and mock API.
 ## Starter Project Overview
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-I made the following enhancements:
+The following *enhancements* were made:
 1. Added a mock API using [json-server](https://github.com/typicode/json-server). Configured `npm start` to run the app and mock API at the same time using [npm-run-all](https://www.npmjs.com/package/npm-run-all). See [Building Applications with React and Flux](https://app.pluralsight.com/library/courses/react-flux-building-applications/table-of-contents) for details on how to set this up from scratch.
 2. Installed [react-router-dom](https://www.npmjs.com/package/react-router-dom), [history](https://www.npmjs.com/package/history) (React Router peer dependency), and [cross-env](https://www.npmjs.com/search?q=cross-env) for declaring environment variables.
 3. Added some React components to help us get started: Header, Footer, Spinner
@@ -357,3 +357,37 @@ I made the following enhancements:
             };
             const [status, setStatus] = useState(STATUS.IDLE);
         ```
+    - Pass down well-named functions to children to assist in encamsulating state management.
+        - Passing functions down instead of the raw setter protects the state;
+        - Principle of least privilege: Components should only be provided what they need.
+    - State ENUMs versus Finite State Machine::
+        - Does my logic have discrete states? If so, consider declaring a single "status" variable.
+        - Finite state machine: Only *one* state can be active at the same time.
+            - The machine transitions from one state to another. 
+                - e.g.: XState library.
+                    - Enforces state transitions. Declare how and when the application state moves.
+                        - Protects from invalid transitions.
+                    - Provides state charts. The display of logic transitioning from one state to another.
+    - Implementing on-the-fly form validation:
+        - Common mistake: Declaring too much state. Most form state can be derived.
+        - We are not going to staore errors in state. Instead, we will calculate erros on each render.
+        - Storing errors in an object makes them easier to reference.
+    - The form is valid if the errors objects has no properties.
+        - GOAL: Only submit the form if it's valid. Otherwise, just set the status to submitted.
+        - Display validation errors next to fields that have been touched.
+        - GOAL: Display inline error if form has been touched or the form has been submitted.
+        - Display the inline error message if:
+            - The field has been touched or the form has been submitted.
+        - Derived state benefits:
+            - Reduced the amount of state we had to store.
+            - Assure error state is valid because it recalculates on each render.
+        - FORM libraries:
+            - Formik and/or React Hook Form.
+
+- MANAGING STATE VIA REFS:
+    - Refs: Reference an HTML element.
+        - Store a value that is stable between renders.
+        - Can mutate the ref's value directly.
+        - Don't cause a re-render when they change.
+    - When to consider:
+    - Controlled components versus uncontrolled components.
