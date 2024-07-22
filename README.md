@@ -389,5 +389,18 @@ The following *enhancements* were made:
         - Store a value that is stable between renders.
         - Can mutate the ref's value directly.
         - Don't cause a re-render when they change.
+        ```javascript
+            import React, { useRef } from 'React';
+            function TextInputWithFocusButton() {
+                const element = useRef(null);
+                const onButtonClick = () => element.current.focus();
+                return (
+                    <>
+                        <input ref={element} type="text" />
+                        <button onClick={onButtonClick}>Focus</button>
+                    </>
+                );
+            }
+        ```
     - When to consider:
     - Controlled components versus uncontrolled components.
