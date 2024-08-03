@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function useFetchAll(urls) {
   const prevUrls = useRef([]);
@@ -7,11 +7,12 @@ export default function useFetchAll(urls) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Only run if the array of URLs passed in changes
-    if (areEqual(prevUrls.current, urls)) return;
+    if (areEqual(prevUrls.current, urls)) {
+      setLoading(false);
+      return;
+    }
 
     prevUrls.current = urls;
-
     const promises = urls.map((url) =>
       fetch(process.env.REACT_APP_API_BASE_URL + url).then((response) => {
         if (response.ok) return response.json();
@@ -31,6 +32,8 @@ export default function useFetchAll(urls) {
   return { data, loading, error };
 }
 
+/* Are the two arrays of the very same length?
+And does each one of the properties have the same value? */
 function areEqual(array1, array2) {
   return (
     array1.length === array2.length &&

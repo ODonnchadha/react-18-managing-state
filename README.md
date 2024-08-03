@@ -386,9 +386,9 @@ The following *enhancements* were made:
 
 - MANAGING STATE VIA REFS:
     - Refs: Reference an HTML element.
-        - Store a value that is stable between renders.
+        - Store a value that is stable, and persists, between renders.
         - Can mutate the ref's value directly.
-        - Don't cause a re-render when they change.
+        - Don't cause a re-render when they change. Access underlying DOM element using 'current.'
         ```javascript
             import React, { useRef } from 'React';
             function TextInputWithFocusButton() {
@@ -402,5 +402,32 @@ The following *enhancements* were made:
                 );
             }
         ```
-    - When to consider:
-    - Controlled components versus uncontrolled components.
+    - When to use:
+        - DOM element reference.
+        - State that isn't rendered/doesn't change.
+        - "Instance variables" in func components.
+            - Keep data between renders. Storing a previous value.
+            - Track if component is mounted. Hold HTTP request cancel token.
+            - Reference a third-party library instance.
+            - Debounce a call or declare local cache. Sotore a flag. Store a value.
+    - REFS: HTML itself becomes the source of truth, instead of React state.
+        - NOTE: Uncontrolled inputs give us less power. React doesn't re-render when REFs change.
+    - Controlled versus Uncontrolled Inputs:
+        - Both: Set an intial value. Validate upon submit.
+        - Controlled: Validate instantly. (e.g.: onBlur.) Conditionally disable submit. Enforce input format.
+            - Several inputs for one piece of data. Dynamic inputs.
+        - When to go uncontrolled:
+            - Extreme performance requirements. Many DOM elements that change frequently.
+            - Working with non-React libraries.
+    - Avoid setting state on unmounted components.
+        - NOTE: Leaving a page before that page's API call is completed.
+        - `Can't perform a React state update on an unmounted component.`
+        - `This is a no-op, but it indicates a memory leak in your application.`
+        - Any function returned from useEffect is called on unmount.
+            - Also consider cancelling the `fetch` call.
+    - Storing a previous value using a REF.
+
+- MANAGING COMPLEX STATE WITH USEREDUCER:
+    - Why useReducer:
+        - Managing state via a pure function.
+        - And when to consider:

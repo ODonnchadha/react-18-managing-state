@@ -4,6 +4,7 @@ import "./App.css";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import Detail from "./Detail";
+// import Detail from "./DetailRefs";
 import Footer from "./Footer";
 import Header from "./Header";
 import Products from "./Products";
