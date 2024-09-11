@@ -35,15 +35,15 @@ The following *enhancements* were made:
         - Context API. Sharing data and function to many components/entire application.
         - Hooks.
     - Eight (8) Ways:
-        - State: APplication data that *may* change over time.
+        - State: Application data that *may* change over time.
         - Side note: Environment variables. Do not change at runtime. Read during build process. Run-time.
             - Built into: create-react-app. REACT_APP_BASE_URL.
         1. URL: Current app location/settings. Current item. Filter. Sorting. Able to share deep links. CONSIDER REACT ROUTER.
         2. Web storage: Store state in the browser. Reloads. Reboots. Cookies. localStorage. IndexedDB. (Tied to a single browser.)
         3. Local state: State stored in a React component. Forms. Toggles.
-        4. Lifted state: Lifted to a common parent. Pass the state down to child compomnents via PROPS. All components reflect the same state.
+        4. Lifted state: Lifted to a common parent. Pass the state down to child components via PROPS. All components reflect the same state.
         5. Derived state: Derive state from existing state/props. Calling .Length on an array. errorsExists on an array.
-        6. Refs: DOM reference. Managing uncomtrolled components. Interfacing with non-React libraries. Storing values that are not displayed. e.g.: timer.
+        6. Refs: DOM reference. Managing uncontrolled components. Interfacing with non-React libraries. Storing values that are not displayed. e.g.: timer.
         7. Context: Global or broadly-used state and functions. Avoid prop-drilling. Logged-in user. Theme.
         8. Third party library: Redux. Mobx. Recoil. Remote state libraries: react-query. Relay. Apollo.
     - JavaScript data structures:
@@ -61,7 +61,7 @@ The following *enhancements* were made:
         - Custom hooks.
     - INSTALL: 
         - GIT. Source control. NODE.JS. (Use LTS.) create-react-app with VSCode and Prettier code formatter. Run Prettier on save.
-        - Auto formet: Install Prettier extension. Setting: Formet on save. Check box. (Optional.)
+        - Auto format: Install Prettier extension. Setting: Format on save. Check box. (Optional.)
         - Not using PropTypes or TypeScript. Use plain CSS. Copy/paste code.
     - APPLICATION:
         - Modified 'start' to begin both the app and the mock API.
@@ -73,8 +73,8 @@ The following *enhancements* were made:
         - Why state is necessary. Fetch an store data. 
         - Handle immutable state. Implement filter and update state.
         - Display error page. Rules of hooks. Implement custom hook.
-        - The section tag is often a betteer choice than a div. It's more descriptive.
-            ```jacascript
+        - The section tag is often a better choice than a div. It's more descriptive.
+            ```javascript
                 <section></section>
             ```
             - If you're torn of which tag to use, search for HTML5 flowchart.
@@ -92,7 +92,7 @@ The following *enhancements* were made:
                     const size = state[0];
                     const setSize = state[1];
                 ```
-    - HOOKS: Enhancing function components. SOme concentrate on state.
+    - HOOKS: Enhancing function components. Some concentrate on state.
         1. Only are for functional components. Can be consumed in classes too.
         2. Start with "use."
         3. Only call them at a top level. Consistent order. Cannot be called inside of functions, conditionals, or loops.
@@ -111,7 +111,7 @@ The following *enhancements* were made:
                 2. Prop changes.
                 3. Parent render.
                 4. Context changes.
-                - NOTE: Will not re-render whan a plain variable changes.
+                - NOTE: Will not re-render when a plain variable changes.
         - When state changes the component renders which causes derived state to be calculated.
         - Logical and operator. It runs the right side if the left side is truthy.
             ```javascript
@@ -123,8 +123,8 @@ The following *enhancements* were made:
             - Simple/ Direct.
             - Hard to ensure API calls are handled consistently across the application. Cannot be reused.
             - NOT RECOMMENDED.
-        2. Centralized functions: Call seperate functions.
-            - Import seperate function and call it.
+        2. Centralized functions: Call separate functions.
+            - Import separate function and call it.
         3. Custom hook. Create and call a custom hook:
         4. Library. react-query, e.g.:
     - React error boundary. This must be a class component.
@@ -132,7 +132,7 @@ The following *enhancements* were made:
             export default class;
             import ErrorBoundary from './ErrorBoundary';
         ```
-    - Promises versus async/await. Syntactic suger. Can mix the two.
+    - Promises versus async/await. Syntactic sugar. Can mix the two.
             ```javascript
                 useEffect(() => {
                     getProducts("shoes")
@@ -158,19 +158,19 @@ The following *enhancements* were made:
                     init();
                 }, []);
             ```
-    - Creating a custom hook: Create a sngle hook that makes it easy to generate HTTP calls.
-        - Simplfy state logic. Radically.
+    - Creating a custom hook: Create a single hook that makes it easy to generate HTTP calls.
+        - Simplify state logic. Radically.
     - SUMMARY:
         - Local State: useState.
         - Remote State: useEffect. async calls. Promises/async await. Loading state. Error boundary. Error handing.
         - Custom hook:
 
 - MANAGING ROUTE STATE:
-    - Seperate, open-source: react-router.
+    - Separate, open-source: react-router.
         - Create application layout. Declare routes with placeholders. Read URL parameters.
         - Handle 404s. Implement inks. Redirect.
         - Create product detail and shopping cart.
-    - All child components can decalre routes.
+    - All child components can declare routes.
     - SUMMARY:
         - Declare routes via <Route/>
         - Declared and read URL placeholders.
@@ -187,7 +187,7 @@ The following *enhancements* were made:
         - Explore where to declare state:
             - NOTE: Multiple pages need the cart state.
             - SUGGESTION: Start local with state, and then lift when needed.
-            - Principe of least privilege: Every module must be able to access only the infrmation and resources that are necessary for its legitimate purpose.
+            - Principe of least privilege: Every module must be able to access only the information and resources that are necessary for its legitimate purpose.
                 - Ideally, each React component only has access to the data and functions that it needs.
             - Start local:
                 - Declare state in the component that needs it.
@@ -199,7 +199,7 @@ The following *enhancements* were made:
                 - App -> Cart: Display cart.
                 - Declare cart state within the App component.
         - Lift state:
-            - We need to update state using existing state. So we should use a fnction to set state.
+            - We need to update state using existing state. So we should use a function to set state.
             - Why is setting state async? 
                 - Batching improves performance by reducing re-renders.
                 - If state is set multiple times in a short time period, React may batch the updates.
@@ -211,10 +211,10 @@ The following *enhancements* were made:
                 ```
                 - Predicate. A function that returns either true or false.
                 - In React, we treat state as immutable.
-        - Immutability: Why bother? Frienndly approaches:
+        - Immutability: Why bother? Friendly approaches:
             - Fast comparisons. Value versus reference equality:
                 - Value equality: Does each property have the same value?
-                - Referencnce equality: Do both variables reference the same spot in memory?
+                - Reference equality: Do both variables reference the same spot in memory?
                 ```javascript
                     const user1 = user;
                     const user2 = user;
@@ -243,7 +243,7 @@ The following *enhancements* were made:
                         }
                     ```
                 - Handling Immutable Data in JavaScript:
-                    - Object.assign. Create an ampty object and then add some properties:
+                    - Object.assign. Create an empty object and then add some properties:
                     ```javascript
                         Object.assign({}, state, { role: "Singer" });
                     ```
@@ -298,8 +298,8 @@ The following *enhancements* were made:
             - With `filter` we will tell the array what to keep.
             - With `reduce` we can aggregate the quantity.
             - Typically, performance isn't a problem. 
-                - If so, use React's useMemo to memoize expensive calculations.
-                - The useMemo hook must be decalred above the first return since hooks can't be called conditionally.
+                - If so, use Reacts useMemo for memoization  of expensive calculations.
+                - The useMemo hook must be declared above the first return since hooks can't be called conditionally.
             ```javascript
                 const numItemsInCart = useMemo(
                     () => cart.reduce((total, item) => total+item.quantity, 0), 
@@ -319,7 +319,7 @@ The following *enhancements* were made:
                     - Tied to browser.
         - Lazy initializing state:
             - Default values are evaluated on every render.
-            - Fuunctions are lazy evualated.
+            - Functions are lazy evaluated.
             - Use try/catch for malformed local data.
             - Use Nullish coalescing operator: ?? 
                 - If the left-hand side is null or undefined, use the value on the right.
@@ -333,20 +333,20 @@ The following *enhancements* were made:
                 e.persist();
             ```
         - NOTE: This isn't necessary in React 17 or later since React 17 no longer pools events.
-    - Form validation decesions:
+    - Form validation decisions:
         - Where to display errors? By field and on top.
         - When to display errors? onSubmit? onBlur? onChange? All three.
-        - When to disble submit? While submitting.
+        - When to disable submit? While submitting.
         - When to revalidate? onSubmit? onBlur? onChange? All three.
         - What state do we need to declare?
             - Touched: What fields have been touched? (Store as touched.)
             - Submitted: Has the form been submitted? (Store as status.)
             - isSubmitting: Is a form submission in progress? (Store as status.)
             - isValid: Is the form currently valid? (Derive.)
-            - errors: What are the erros for each field? (Derive.)
+            - errors: What are the errors for each field? (Derive.)
             - dirty: Has the form changed? (Derive.)
     - Implement a state enum.
-        - Favor ENUMs over seperate booleans.
+        - Favor ENUMs over separate Booleans.
         - Our form can only be in 1 of 3 states at a given time.
         ```javascript
             const STATUS = {
@@ -357,7 +357,7 @@ The following *enhancements* were made:
             };
             const [status, setStatus] = useState(STATUS.IDLE);
         ```
-    - Pass down well-named functions to children to assist in encamsulating state management.
+    - Pass down well-named functions to children to assist in encapsulating state management.
         - Passing functions down instead of the raw setter protects the state;
         - Principle of least privilege: Components should only be provided what they need.
     - State ENUMs versus Finite State Machine::
@@ -370,7 +370,7 @@ The following *enhancements* were made:
                     - Provides state charts. The display of logic transitioning from one state to another.
     - Implementing on-the-fly form validation:
         - Common mistake: Declaring too much state. Most form state can be derived.
-        - We are not going to staore errors in state. Instead, we will calculate erros on each render.
+        - We are not going to store errors in state. Instead, we will calculate errors on each render.
         - Storing errors in an object makes them easier to reference.
     - The form is valid if the errors objects has no properties.
         - GOAL: Only submit the form if it's valid. Otherwise, just set the status to submitted.
@@ -413,7 +413,7 @@ The following *enhancements* were made:
     - REFS: HTML itself becomes the source of truth, instead of React state.
         - NOTE: Uncontrolled inputs give us less power. React doesn't re-render when REFs change.
     - Controlled versus Uncontrolled Inputs:
-        - Both: Set an intial value. Validate upon submit.
+        - Both: Set an initial value. Validate upon submit.
         - Controlled: Validate instantly. (e.g.: onBlur.) Conditionally disable submit. Enforce input format.
             - Several inputs for one piece of data. Dynamic inputs.
         - When to go uncontrolled:
