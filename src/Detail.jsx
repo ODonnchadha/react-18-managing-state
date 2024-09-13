@@ -9,7 +9,14 @@ export default function Detail() {
   const { dispatch } = useCart();
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // Declare some state called size and a function that sets size.
+  // Default size to an empty string. Array destructuring.
   const [sku, setSku] = useState("");
+  // const state = useState('');
+  // const sku = state[0];
+  // const setSku = state[1];
+
   const { data: product, loading, error } = useFetch(`products/${id}`);
 
   if (loading) return <Spinner />;
