@@ -1,7 +1,9 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function useFetchAll(urls) {
-  const prevUrls = useRef([]);
+  // Every time the cart renders, the URLs array is created. Infinite loop.
+  // We can use a ref to store the previous value passed in.
+  const previousUrls = useRef([]);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,9 +13,12 @@ export default function useFetchAll(urls) {
   useEffect(() => {
     // Only run if the array of URLs passed in changes.
     // Guard clause: useEffect is run after each and every render.
-    if (areEqual(prevUrls.current, urls)) return;
+    if (areEqual(previousUrls.current, urls)) {
+      setLoading(false);
+      return;
+    }
 
-    prevUrls.current = urls;
+    previousUrls.current = urls;
 
     const promises = urls.map((url) =>
       fetch(process.env.REACT_APP_API_BASE_URL + url).then((response) => {
@@ -34,6 +39,8 @@ export default function useFetchAll(urls) {
   return { data, loading, error };
 }
 
+// Simple function for comparing two arrays.
+// Ensure that the arrays have the same length and then if every property has the same value.
 function areEqual(array1, array2) {
   return (
     array1.length === array2.length &&

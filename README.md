@@ -563,7 +563,7 @@
     - When to use:
         - DOM element reference.
         - State that isn't rendered/doesn't change.
-        - "Instance variables" in func components.
+        - "Instance variables" in function components.
             - Keep data between renders. Storing a previous value.
             - Track if component is mounted. Hold HTTP request cancel token.
             - Reference a third-party library instance.
@@ -572,13 +572,17 @@
         - NOTE: Uncontrolled inputs give us less power. React doesn't re-render when REFs change.
     - Controlled versus Uncontrolled Inputs:
         - Both: Set an initial value. Validate upon submit.
-        - Controlled: Validate instantly. (e.g.: onBlur.) Conditionally disable submit. Enforce input format.
+        - Controlled: 
+            - Validate instantly. (e.g.: onBlur.) 
+            - Conditionally disable submit. Enforce input format.
             - Several inputs for one piece of data. Dynamic inputs.
         - When to go uncontrolled:
             - Extreme performance requirements. Many DOM elements that change frequently.
             - Working with non-React libraries.
     - Avoid setting state on unmounted components.
         - NOTE: Leaving a page before that page's API call is completed.
+            - And that page is able to setState().
+            - We are trying to setState() on an unmounted component.
         - `Can't perform a React state update on an unmounted component.`
         - `This is a no-op, but it indicates a memory leak in your application.`
         - Any function returned from useEffect is called on unmount.
@@ -588,4 +592,138 @@
 - MANAGING COMPLEX STATE WITH USEREDUCER:
     - Why useReducer:
         - Managing state via a pure function.
-        - And when to consider:
+        - And when to consider: useState versus useReducer.
+    - We declare a function that manages state outside of the component.
+    - Pure function that accepts state and an action and returns the new state.
+        - Whatever we return becomes the new state.
+    ```javascript
+        const initialState = { count: 0 }
+        function reducer(state, action) {
+            switch (action.type) {
+                case 'increment':
+                    return { count: state.count + 1 }
+                case 'decrement':
+                    return { count: state.count -1 }
+                default:
+                    throw new Error()
+            }
+        }
+        function counter() {
+            const [state, dispatch] = useReducer(reducer, initialState);
+            return (
+                <>
+                    Count: {state.count}
+                    <button onClick{()=>dispatch({type:'decrement'})}>-</button>
+                    <button onClick{()=>dispatch({type:'increment'})}>+</button>
+                </>
+            )
+        }
+    ```
+    - Extract logic outside of component. Easy to unit test. Scales better than useState().
+    - Pure function: Depends only on argument. Doesn't mutate arguments. Has no side effects.
+        - Always returns the same output for a given input.
+        - Composable and reuseable.
+        - Easy to understand and test.
+    - Implement useReducer: Switch from useState to useReducer.
+    - Reducer: A function that returns new state when passed an action.
+    ```javascript
+        const [cart, setCart] = useState(() -> {
+            try {
+                return JSON.parse(localStorage.getItem("cart")) ?? [];
+            } catch {
+                console.error("");
+                return [];
+            }
+        });
+    ```
+    ```javascript
+        import cartReducer from './cartReducer';
+        let initialCart;
+        try {
+            initialCart = JSON.parse(localStorage.getItem("cart")) ?? [];
+        } catch {
+            console.error("");
+            initialCart = [];
+        }
+        const [cart, dispatch] = useReducer(cartReducer, initialCart);
+        <Route path="/:category/:id" element={<Detail dispatch={dispatch}} />
+    ```
+    ```javascript
+        onClick(() => {
+            props.dispatch({type:'add', id, sku});
+            navigate("/cart");
+        })
+    ```
+    - useState:
+        - Easy to implement for most scenarios. Easy to learn.
+    - useReducer:
+        - More scalable for complex scenarios.
+            - Many complex state transitions.
+            - Multiple sub-values.
+            - Next state depends on the previous state.
+        - Reason about state in isolation. Testable in isolation.
+        - Can be reused.
+    - Can mix within same component.
+
+- SHARING STATE AND FUNCTIONS VIA CONTEXT:
+    - Share the same state and functions with the same application.
+    - Why?
+        - Do I need context?
+            - Lift state to a common component. And then pass data down through props. 
+                - (Prop drilling.) 
+                - This creates risk. Data and functions to components that do no need.
+            - React context:
+                - UserContext.Provider (Holds user data and functions)
+                - UserContext.Consumer. (Call createUser via context.)
+            - Redux. Dispatch actions that update components attached to that store.
+        1. Start with state in a simple component.
+        2. Lift state as needed.
+        3. Try context or Redux when lifting state gets annoying.
+    - And when?
+    - Wrap provider in a custom component:
+    ```javascript
+        const { cart, dispatch } = useContext(CartContext);
+    ```
+    - Share context via a custom hook:
+        - Custom useContext hook benefits:
+            - Easier to consume.
+            - Protective of the context.
+            - Can display helpful errors if misused.
+    - SUMMARY:
+        - Global data or functions?
+            - Consider context or Redux.
+        - Context: Two pieces:
+            - Provider: Provides data & functions.
+            - Consumer: Consumes data & functions.
+        - Consider "wrapping" context: Provider component. useContext custom hook.
+
+- MANAGING STATE VIA THIRD-PARTY LIBRARIES:
+    - Popular libraries:
+    - Local state: Goal: Manage component state.
+        - useState. Class state. useReducer. refs. Derived state in render.
+        - Also: XState
+    - Global state: Goal: Share state or functions globally.
+        - Lift state. Context.
+        - Also: Redux. MobX. Recoil.
+    - Server state: Goal: Fetch and cache server data.
+        - Also: fetch. Axios. react-query. swr.
+            - stale-while-revalidate header.
+                - Display cached record.
+                - Request fresh record behind the scenes.
+                - Display the fresh record if it's newer.
+    - Immutable state: Goal: Enforce immutability.
+        - Also: Immer.
+        ```javascript
+            import produce from "immer";
+            const user = {
+                name: "X"
+            };
+            const copy = produce(user, draft => {
+                draft.name = "y"
+            });
+            console.log(user.name); // X
+            console.log(copy.name); // y
+        ```
+    - Form state: Goal: Manage Form State.
+        - State. Event Handlers. Derived state.
+        - Also: Formik. React Hook Form.

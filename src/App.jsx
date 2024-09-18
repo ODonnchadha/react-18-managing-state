@@ -7,6 +7,7 @@ import { Route, Routes  } from "react-router-dom";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import Detail from "./Detail";
+// import Detail from "./DetailRefs";
 import { useCart } from "./cartContext";
 
 // Display the product's category in the URL using a placeholder.

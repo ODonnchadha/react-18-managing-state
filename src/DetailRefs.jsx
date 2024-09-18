@@ -6,7 +6,11 @@ import PageNotFound from "./PageNotFound";
 
 export default function Detail(props) {
   const { id } = useParams();
+  // Uncontrolled input. HTML input holds the value. 
+  // Source of truth. Not React state.
   const skuRef = useRef();
+  // Uncontrolled inputs provide less power during re-render when the ref does change.
+  // React cannot re-render.
   const navigate = useNavigate();
   const { data: product, loading, error } = useFetch(`products/${id}`);
 
