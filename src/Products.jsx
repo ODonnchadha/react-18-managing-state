@@ -7,12 +7,16 @@ import { Link } from "react-router-dom";
 
 export default function Products() {
   const [size, setSize] = useState("");
+  // Read the requested category from the URL.
   const { category } = useParams();
 
   const { data: products, loading, error } = useFetch(
     "products?category=" + category
   );
 
+  // Client-side navigation.
+  // Link is like an anchor tag.
+  // React Router handles the click so that the page does not reload.
   function renderProduct(p) {
     return (
       <div key={p.id} className="product">
@@ -31,6 +35,8 @@ export default function Products() {
 
   if (error) throw error;
   if (loading) return <Spinner />;
+  // Order is important. Guard clause.
+  // Returning early offers less code and makes the remaining code easier to reason.
   if (products.length === 0) return <PageNotFound />;
 
   return (

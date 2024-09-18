@@ -5,6 +5,8 @@ const activeStyle = {
   color: "purple",
 };
 
+// NavLink has one extra trick:
+// It supports custom styling when the link is active and the route matches.
 export default function Header() {
   return (
     <header>

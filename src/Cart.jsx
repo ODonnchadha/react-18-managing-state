@@ -6,8 +6,10 @@ import { useCart } from "./cartContext";
 
 export default function Cart() {
   const { cart, dispatch } = useCart();
+  // Allow for checkout.
   const navigate = useNavigate();
   const urls = cart.map((i) => `products/${i.id}`);
+  // Custom hook accepting an array of URLs.
   const { data: products, loading, error } = useFetchAll(urls);
 
   function renderItem(itemInCart) {
@@ -52,6 +54,8 @@ export default function Cart() {
   if (loading) return <Spinner />;
   if (error) throw error;
 
+  // With reduce, we can run a function on each item in the array to calculate to total quantity.
+  // The final argument is the initial value.
   const numItemsInCart = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -63,12 +67,8 @@ export default function Cart() {
       </h1>
       <ul>{cart.map(renderItem)}</ul>
       {cart.length > 0 && (
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate("/checkout")}
-        >
-          Checkout
-        </button>
+        <button className="btn btn-primary" 
+          onClick={() => navigate("/checkout")}>Checkout</button>
       )}
     </section>
   );

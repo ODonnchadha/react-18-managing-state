@@ -6,8 +6,11 @@ export default function useFetchAll(urls) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Two arguments: (1) A function. (2) Specify when it runs. e.g.: An empty array.
+  // An empty array states "Run this only once."
   useEffect(() => {
-    // Only run if the array of URLs passed in changes
+    // Only run if the array of URLs passed in changes.
+    // Guard clause: useEffect is run after each and every render.
     if (areEqual(prevUrls.current, urls)) return;
 
     prevUrls.current = urls;

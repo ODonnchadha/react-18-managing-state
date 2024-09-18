@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
+// Custom hook. A Javascript function with a few extra rules.
 export default function useFetch(url) {
   const isMounted = useRef(false);
   const [data, setData] = useState(null);
